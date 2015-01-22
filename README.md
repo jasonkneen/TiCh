@@ -42,4 +42,5 @@ Create a tich.cfg file in the Titanium project folder as follows:-
 
 ### Changelog
 
+* 0.0.6: Updates to package and check for updates
 * 0.0.5: Initial version
