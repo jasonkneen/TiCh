@@ -54,3 +54,8 @@ You can currently put any top level XML node in the settings object, so *publish
 * 0.0.7: remove redundant dependencies
 * 0.0.6: Updates to package and check for updates
 * 0.0.5: Initial version
+
+##  Thanks
+
+* [Tony Luka Savage](http://github.com/tonylukasavage) for creating the Tiapp.xml module
+* [Fokke Zandbergen](http://github.com/fokkeZB) for the CLI template
