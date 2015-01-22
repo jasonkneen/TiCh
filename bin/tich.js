@@ -2,14 +2,10 @@
 
 var program = require('commander'),
     chalk = require('chalk'),
-    _ = require('lodash'),
     updateNotifier = require('update-notifier'),
     fs = require("fs"),
-    tiappxml = require('tiapp.xml');
-
-var pkg = require('../package.json')
-    //clitest = require('../index');
-
+    tiappxml = require('tiapp.xml'),
+    pkg = require('../package.json')
 
 if (!fs.existsSync('tiapp.xml')) {
     console.log(chalk.red('Please run in the Ti Project folder'));
