@@ -23,10 +23,10 @@ function tich() {
 
     program
         .version(pkg.version, '-v, --version')
-        .usage('[options] [path]')
+        .usage('[options]')
         .description(pkg.description)
         .option('-l, --list', 'Lists the configurations in the project folder')
-        .option('-u, --use <name>', 'Switches the TiApp.xml to use the config specified')
+        .option('-s, --select <name>', 'Switches the TiApp.xml to use the config settings specified by <name>')
 
     program.parse(process.argv);
 
@@ -40,10 +40,7 @@ function tich() {
         cfg.configs.forEach(function(config) {
             console.log(chalk.cyan(config.name + ' - ' + chalk.grey('Name: ') + config.settings.name + ' ' + chalk.grey('Id: ') + config.settings.id + ' ' + chalk.grey('Version: ') + config.settings.version));
         });
-    }
-
-    // process commands
-    if (program.use) {
+    } else if (program.select) {
 
         // find the config
         cfg.configs.forEach(function(config) {
@@ -64,5 +61,12 @@ function tich() {
 
             }
         });
+    } else {
+        console.log('\n');
+        console.log('Name: ' + chalk.cyan(tiapp.name));
+        console.log('AppId: ' + chalk.cyan(tiapp.id));
+        console.log('Version: ' + chalk.cyan(tiapp.version));
+        console.log('\n');
     }
+
 }
