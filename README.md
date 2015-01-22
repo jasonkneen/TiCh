@@ -33,6 +33,7 @@ Create a tich.cfg file in the Titanium project folder as follows:-
     }]
 }
 
+You can currently put any top level XML node in the settings object, so *publisher*, *copyright*, *icon* etc
     
 ##Switch configuration
 
