@@ -34,11 +34,19 @@ Create a tich.cfg file in the Titanium project folder as follows:-
 }
 ```
 You can currently put any top level XML node in the settings object, so *publisher*, *copyright*, *icon* etc
-    
+
+##Status
+
+This will show the current TiApp.xml config for name, id, version:
+
+    $ tich    
+
 ##Switch configuration
 
-    $ tich use app1
-    $ tich use app2
+This will switch the current TiApp.xml file to the settings for the config name specified:
+
+    $ tich select app1
+    $ tich select app2
     
 ##Future thoughts
 
@@ -51,6 +59,7 @@ You can currently put any top level XML node in the settings object, so *publish
 
 ### Changelog
 
+* 0.0.8: changed 'use' to 'select', added status / default
 * 0.0.7: remove redundant dependencies
 * 0.0.6: Updates to package and check for updates
 * 0.0.5: Initial version
