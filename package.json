@@ -1,6 +1,6 @@
 {
   "name": "tich",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "TiCh (TiChange) - allows you to switch App configurations via the CLI.",
   "main": "index.js",
   "bin": {
@@ -30,12 +30,8 @@
   },
   "homepage": "https://github.com/jasonkneen/tich",
   "dependencies": {
-    "async": "^0.9.0",
     "chalk": "^0.5.1",
     "commander": "^2.6.0",
-    "glob": "^4.3.2",
-    "lodash": "^2.4.1",
-    "timodules": "^0.1.1",
     "update-notifier": "^0.2.2",
     "tiapp.xml":"^0.2.2"
   }
