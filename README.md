@@ -40,6 +40,14 @@ You can currently put any top level XML node in the settings object, so *publish
     $ tich use app1
     $ tich use app2
     
+##Future thoughts
+
+* allow saving of new config items / settings via the CLI
+* allow renaming, deleting of configs
+* allow postbuild commands using Ti/TiNy (ti appstore) to be passed or put into config
+* improve error handling
+* allow backup capbility to save changed TiApp.xml files
+    
 
 ### Changelog
 
