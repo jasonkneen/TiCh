@@ -37,7 +37,7 @@ function tich() {
     // check for a new version
     updateNotifier({
         packageName: pkg.name,
-        packageVersion: '0.0.5' //pkg.version
+        packageVersion: pkg.version
     }).notify();
 
     if (program.list) {
