@@ -17,35 +17,19 @@ if (!fs.existsSync('tiapp.xml')) {
 
 function tich() {
 
-    var cfg = JSON.parse(fs.readFileSync("tich.cfg", "utf-8"));
+    function status() {
+        console.log('\n');
+        console.log('Name: ' + chalk.cyan(tiapp.name));
+        console.log('AppId: ' + chalk.cyan(tiapp.id));
+        console.log('Version: ' + chalk.cyan(tiapp.version));
+        console.log('\n');
+    }
 
-    var tiapp = tiappxml.load('./tiapp.xml');
-
-    program
-        .version(pkg.version, '-v, --version')
-        .usage('[options]')
-        .description(pkg.description)
-        .option('-l, --list', 'Lists the configurations in the project folder')
-        .option('-s, --select <name>', 'Switches the TiApp.xml to use the config settings specified by <name>')
-
-    program.parse(process.argv);
-
-    // check for a new version
-    updateNotifier({
-        packageName: pkg.name,
-        packageVersion: pkg.version
-    }).notify();
-
-    if (program.list) {
-        cfg.configs.forEach(function(config) {
-            console.log(chalk.cyan(config.name + ' - ' + chalk.grey('Name: ') + config.settings.name + ' ' + chalk.grey('Id: ') + config.settings.id + ' ' + chalk.grey('Version: ') + config.settings.version));
-        });
-    } else if (program.select) {
-
+    function select(name) {
         // find the config
         cfg.configs.forEach(function(config) {
 
-            if (config.name === program.args[0]) {
+            if (config.name === name) {
                 console.log('\nFound a config for ' + chalk.cyan(config.name) + '\n');
                 for (var prop in config.settings) {
 
@@ -61,12 +45,55 @@ function tich() {
 
             }
         });
+    }
+
+    var cfg = JSON.parse(fs.readFileSync("tich.cfg", "utf-8"));
+
+    var tiapp = tiappxml.load('./tiapp.xml');
+
+    program
+        .version(pkg.version, '-v, --version')
+        .usage('[options]')
+        .description(pkg.description)
+        .option('-l, --list', 'Lists the configurations in the project folder')
+        .option('-s, --select <name>', 'Switches the TiApp.xml to use the config settings specified by <name>')
+        .option('-c, --capture <name>', "Stores the current values of TiApp.xml id, name, version as <name> ")
+
+    program.parse(process.argv);
+
+    // check for a new version
+    updateNotifier({
+        packageName: pkg.name,
+        packageVersion: pkg.version
+    }).notify();
+
+    if (program.list) {
+        cfg.configs.forEach(function(config) {
+            console.log(chalk.cyan(config.name + ' - ' + chalk.grey('Name: ') + config.settings.name + ' ' + chalk.grey('Id: ') + config.settings.id + ' ' + chalk.grey('Version: ') + config.settings.version));
+        });
+    } else if (program.select) {
+
+        select(program.args[0]);
+
+    } else if (program.capture) {
+
+
     } else {
-        console.log('\n');
-        console.log('Name: ' + chalk.cyan(tiapp.name));
-        console.log('AppId: ' + chalk.cyan(tiapp.id));
-        console.log('Version: ' + chalk.cyan(tiapp.version));
-        console.log('\n');
+
+        if (fs.existsSync('./app/config.json')) {
+            var alloyCfg = JSON.parse(fs.readFileSync("./app/config.json", "utf-8"));
+
+            if (alloyCfg.global.theme) {
+                console.log('\nFound a theme in config.json, trying ' + chalk.cyan(alloyCfg.global.theme));
+                select(alloyCfg.global.theme);
+            } else {
+                status();
+            }
+        } else {
+            status();
+        }
+
+
     }
 
 }
