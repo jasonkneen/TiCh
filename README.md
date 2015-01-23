@@ -46,13 +46,21 @@ Create a tich.cfg file in the Titanium project folder as follows:-
 ```
 You can currently put any top level XML node in the settings object, so *publisher*, *copyright*, *icon* etc
 
-##Status
+##Default
 
 This will show the current TiApp.xml config for name, id, version:
 
     $ tich    
 
-##Switch configuration
+##Switch configutation automatically (Alloy)
+
+If you're using Alloy, and have set a global theme, and this theme is a config, TiCh will automatilly look for that. So set your theme in app/config.json, then type:
+
+$ tich
+
+and if TiCh finds a theme, and matches it in your TiCh config settings, it'll select it.
+
+##Switch configuration manually
 
 This will switch the current TiApp.xml file to the settings for the config name specified:
 
