@@ -27,41 +27,61 @@ function tich() {
     }
 
     function select(name) {
-        // find the config
-        cfg.configs.forEach(function(config) {
 
-            if (config.name === name) {
-                console.log('\nFound a config for ' + chalk.cyan(config.name) + '\n');
+        if (!name) {
+            if (fs.existsSync('./app/config.json')) {
+                var alloyCfg = JSON.parse(fs.readFileSync("./app/config.json", "utf-8"));
 
-                for (var setting in config.settings) {
-
-                    if (setting != "properties") {
-
-                        tiapp[setting] = config.settings[setting];
-
-                        console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(config.settings[setting]))
-                    }
-
+                if (alloyCfg.global.theme) {
+                    console.log('\nFound a theme in config.json, trying ' + chalk.cyan(alloyCfg.global.theme));
+                    select(alloyCfg.global.theme);
+                } else {
+                    status();
                 }
-
-
-
-                if (config.settings.properties) {
-                    for (var property in config.settings.properties) {
-
-                        tiapp.setProperty(property, config.settings.properties[property]);
-
-                        console.log('Changing App property ' + chalk.cyan(property) + ' to ' + chalk.yellow(config.settings.properties[property]))
-
-                    }
-                }
-
-                console.log(chalk.green('\nTiApp.xml updated\n'));
-
-                tiapp.write();
-
             }
-        });
+        } else {
+
+            // find the config name specified
+            cfg.configs.forEach(function(config) {
+
+                if (config.name === name) {
+                    console.log('\nFound a config for ' + chalk.cyan(config.name) + '\n');
+
+                    for (var setting in config.settings) {
+
+                        if (setting != "properties") {
+
+                            tiapp[setting] = config.settings[setting];
+
+                            console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(config.settings[setting]))
+                        }
+
+                    }
+
+
+
+                    if (config.settings.properties) {
+                        for (var property in config.settings.properties) {
+
+                            tiapp.setProperty(property, config.settings.properties[property]);
+
+                            console.log('Changing App property ' + chalk.cyan(property) + ' to ' + chalk.yellow(config.settings.properties[property]))
+
+                        }
+                    }
+
+                    console.log(chalk.green('\nTiApp.xml updated\n'));
+
+                    tiapp.write();
+
+                    return;
+
+                }
+            });
+            
+            console.log(chalk.red('\nCouldn\'t find a config called: ' + name + '\n'));
+        
+        }
     }
 
     var cfg = JSON.parse(fs.readFileSync("tich.cfg", "utf-8"));
@@ -93,23 +113,11 @@ function tich() {
         select(program.args[0]);
 
     } else if (program.capture) {
-
+        // coming soon!
 
     } else {
 
-        if (fs.existsSync('./app/config.json')) {
-            var alloyCfg = JSON.parse(fs.readFileSync("./app/config.json", "utf-8"));
-
-            if (alloyCfg.global.theme) {
-                console.log('\nFound a theme in config.json, trying ' + chalk.cyan(alloyCfg.global.theme));
-                select(alloyCfg.global.theme);
-            } else {
-                status();
-            }
-        } else {
-            status();
-        }
-
+        status();
 
     }
 

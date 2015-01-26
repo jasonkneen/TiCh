@@ -62,7 +62,7 @@ This will show the current TiApp.xml config for name, id, version:
 
 If you're using Alloy, and have set a global theme, and this theme is a config, TiCh will automatilly look for that. So set your theme in app/config.json, then type:
 
-$ tich
+$ tich select
 
 and if TiCh finds a theme, and matches it in your TiCh config settings, it'll select it.
 
@@ -90,6 +90,8 @@ too before building with Titanium as any App Name changes will create multiple p
 
 ### Changelog
 
+* 1.0.2: restored default to show status, "tich select" to do alloy theme, added "not found" error
+* 1.0.1: quick fix to stop properties object being displayed
 * 1.0.0: added support / example for GUID + App properties
 * 0.0.9: theme detection for alloy
 * 0.0.8: changed 'use' to 'select', added status / default
