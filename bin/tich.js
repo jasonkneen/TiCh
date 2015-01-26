@@ -74,12 +74,10 @@ function tich() {
 
                     tiapp.write();
 
-                    return;
-
                 }
             });
             
-            console.log(chalk.red('\nCouldn\'t find a config called: ' + name + '\n'));
+            //console.log(chalk.red('\nCouldn\'t find a config called: ' + name + '\n'));
         
         }
     }

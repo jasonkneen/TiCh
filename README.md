@@ -85,19 +85,7 @@ too before building with Titanium as any App Name changes will create multiple p
 * allow renaming, deleting of configs
 * allow postbuild commands using Ti/TiNy (ti appstore) to be passed or put into config
 * improve error handling
-* allow backup capbility to save changed TiApp.xml files
-    
-
-### Changelog
-
-* 1.0.2: restored default to show status, "tich select" to do alloy theme, added "not found" error
-* 1.0.1: quick fix to stop properties object being displayed
-* 1.0.0: added support / example for GUID + App properties
-* 0.0.9: theme detection for alloy
-* 0.0.8: changed 'use' to 'select', added status / default
-* 0.0.7: remove redundant dependencies
-* 0.0.6: Updates to package and check for updates
-* 0.0.5: Initial version
+* allow backup capbility to save changed TiApp.xml files    
 
 ##  Thanks
 
