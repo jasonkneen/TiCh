@@ -32,14 +32,20 @@ Create a tich.cfg file in the Titanium project folder as follows:-
         "settings": {
             "name": "APP1",
             "version": "1.0.0",
-            "id": "com.domain.app1"
+            "id": "com.domain.app1",
+            "guid": "1234-5678-9012-3456",
+             "properties" :{
+                "Parse_AppId" : "APPID",
+                "Parse_ClientKey" : "CLIENTKEY"
+            }
         }
     }, {
         "name": "test",
         "settings": {
             "name": "APP2",
             "version": "2.0.0",
-            "id": "com.domain.app2"
+            "id": "com.domain.app2",
+            "guid": "4321-5678-9012-3456"
         }
     }]
 }
@@ -84,6 +90,8 @@ too before building with Titanium as any App Name changes will create multiple p
 
 ### Changelog
 
+* 1.0.0: added support / example for GUID + App properties
+* 0.0.9: theme detection for alloy
 * 0.0.8: changed 'use' to 'select', added status / default
 * 0.0.7: remove redundant dependencies
 * 0.0.6: Updates to package and check for updates

@@ -22,6 +22,7 @@ function tich() {
         console.log('Name: ' + chalk.cyan(tiapp.name));
         console.log('AppId: ' + chalk.cyan(tiapp.id));
         console.log('Version: ' + chalk.cyan(tiapp.version));
+        console.log('GUID: ' + chalk.cyan(tiapp.guid));
         console.log('\n');
     }
 
@@ -31,12 +32,25 @@ function tich() {
 
             if (config.name === name) {
                 console.log('\nFound a config for ' + chalk.cyan(config.name) + '\n');
-                for (var prop in config.settings) {
 
-                    tiapp[prop] = config.settings[prop];
+                for (var setting in config.settings) {
 
-                    console.log('Changing ' + chalk.cyan(prop) + ' to ' + chalk.yellow(config.settings[prop]))
+                    tiapp[setting] = config.settings[setting];
 
+                    console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(config.settings[setting]))
+
+                }
+
+               
+
+                if (config.settings.properties) {
+                    for (var property in config.settings.properties) {
+
+                        tiapp.setProperty(property,config.settings.properties[property]);
+
+                        console.log('Changing App property ' + chalk.cyan(property) + ' to ' + chalk.yellow(config.settings.properties[property]))
+
+                    }
                 }
 
                 console.log(chalk.green('\nTiApp.xml updated\n'));
