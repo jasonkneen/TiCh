@@ -35,18 +35,21 @@ function tich() {
 
                 for (var setting in config.settings) {
 
-                    tiapp[setting] = config.settings[setting];
+                    if (setting != "properties") {
 
-                    console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(config.settings[setting]))
+                        tiapp[setting] = config.settings[setting];
+
+                        console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(config.settings[setting]))
+                    }
 
                 }
 
-               
+
 
                 if (config.settings.properties) {
                     for (var property in config.settings.properties) {
 
-                        tiapp.setProperty(property,config.settings.properties[property]);
+                        tiapp.setProperty(property, config.settings.properties[property]);
 
                         console.log('Changing App property ' + chalk.cyan(property) + ' to ' + chalk.yellow(config.settings.properties[property]))
 
