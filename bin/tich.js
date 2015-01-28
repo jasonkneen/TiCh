@@ -7,6 +7,7 @@ var program = require('commander'),
     tiappxml = require('tiapp.xml'),
     pkg = require('../package.json')
 
+// check if the TiApp.xml an TiCh config file exists
 if (!fs.existsSync('tiapp.xml')) {
     console.log(chalk.red('Please run in the Ti Project folder'));
 } else if (!fs.existsSync('tich.cfg')) {
@@ -15,8 +16,10 @@ if (!fs.existsSync('tiapp.xml')) {
     tich();
 }
 
+// main function
 function tich() {
 
+    // status command, shows the current config
     function status() {
         console.log('\n');
         console.log('Name: ' + chalk.cyan(tiapp.name));
@@ -26,6 +29,7 @@ function tich() {
         console.log('\n');
     }
 
+    // select a new config by name
     function select(name) {
 
         if (!name) {
@@ -82,17 +86,20 @@ function tich() {
         }
     }
 
+    // read in our config
     var cfg = JSON.parse(fs.readFileSync("tich.cfg", "utf-8"));
 
+    // read in the app config
     var tiapp = tiappxml.load('./tiapp.xml');
 
+    // setup CLI
     program
         .version(pkg.version, '-v, --version')
         .usage('[options]')
         .description(pkg.description)
         .option('-l, --list', 'Lists the configurations in the project folder')
-        .option('-s, --select <name>', 'Switches the TiApp.xml to use the config settings specified by <name>')
-        .option('-c, --capture <name>', "Stores the current values of TiApp.xml id, name, version as <name> ")
+        .option('-s, --select <name>', 'Updates TiApp.xml to config specified by <name>')
+        //.option('-c, --capture <name>', "Stores the current values of TiApp.xml id, name, version as <name> ")
 
     program.parse(process.argv);
 
@@ -102,14 +109,18 @@ function tich() {
         packageVersion: pkg.version
     }).notify();
 
+    // LIST command - show the list of config items
     if (program.list) {
         cfg.configs.forEach(function(config) {
             console.log(chalk.cyan(config.name + ' - ' + chalk.grey('Name: ') + config.settings.name + ' ' + chalk.grey('Id: ') + config.settings.id + ' ' + chalk.grey('Version: ') + config.settings.version));
         });
+
+    // select command, select based on the arg passed
     } else if (program.select) {
 
         select(program.args[0]);
 
+    // capture command - this will store the current TiApp.xml settings
     } else if (program.capture) {
         // coming soon!
 
