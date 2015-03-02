@@ -2,8 +2,6 @@
 
 Allows you to switch TiApp.xml configurations via the CLI
 
-Also take a look at [my alloy.jmk file](https://github.com/jasonkneen/alloyjmk) which does a similar thing but as part of the CLI build process AND allows you to have different Android configs
-
 ## Why?
 
 Titanium + Alloy has the ability to theme apps, which is awesome when it comes to having multiple versions of apps that share the same codebase. You can have different styles (TSS), views (XML), app icons, splash screens and assets per theme. The problem is that TiApp.xml is never-changing. Which means if you want to have one codebase but multiple instances of branded apps (all with their own names, versions, App IDs etc) it's a nightmare to manage. 
