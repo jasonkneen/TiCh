@@ -44,6 +44,12 @@ Create a tich.cfg file in the Titanium project folder as follows:-
                 "com.domain.APP_VERSION_DESC": "Version $tiapp.version$",
                 "com.domain.moreinfo": "Visit $tiapp.url for more details"
             }
+        },
+        "raw": {
+          "/ti:app/android/manifest/@package": "$tiapp.id$",
+          "/ti:app/android/manifest/@android:versionName": "$tiapp.version$",
+          "/ti:app/android/manifest/application/@android:debuggable": "false",
+          "/ti:app/android/manifest/application/activity[@android:name='.SomeActivity']/@android:screenOrientation": "portrait"
         }
     }, {
         "name": "test",
@@ -52,6 +58,11 @@ Create a tich.cfg file in the Titanium project folder as follows:-
             "version": "2.0.0",
             "id": "com.domain.app2",
             "guid": "4321-5678-9012-3456"
+        },
+        "raw": {
+          "/ti:app/android/manifest/@package": "$tiapp.id$",
+          "/ti:app/android/manifest/@android:versionName": "$tiapp.version$",
+          "/ti:app/android/manifest/application/@android:debuggable": "true",
         }
     }]
 }
@@ -67,6 +78,12 @@ This allows you to use dynamic content in your replacement values. Special dynam
 * `$DATETIME$` - Both of them, including timezone. For example `Thu Mar 05 2015 17:03:07 GMT-0500 (EST)`
 * `$TIME_EPOCH$` - The number of seconds since the unix epoch. Useful for increasing build numbers.
 * `$tiapp.property$` - Substitutes the current value of the tiapp.xml property's value. For example, `$tiapp.version$` would substitute the current value of the `<version>` element from tiapp.xml
+
+##Raw xpath Substitutions
+
+This allows you to set arbitrary XML values and attributes using [xpath](http://en.wikipedia.org/wiki/XPath) expressions.
+This is useful for setting values in the `<android>` and `<ios>` sections of `tiapp.xml`. See the examples above for how
+to do this.
 
 ##Default
 

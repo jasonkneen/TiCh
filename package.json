@@ -33,6 +33,7 @@
     "chalk": "^0.5.1",
     "commander": "^2.6.0",
     "update-notifier": "^0.2.2",
-    "tiapp.xml":"^0.2.2"
+    "tiapp.xml": "^0.2.2",
+    "xpath": "^0.0.9"
   }
 }
