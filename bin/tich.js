@@ -5,7 +5,8 @@ var program = require('commander'),
     updateNotifier = require('update-notifier'),
     fs = require("fs"),
     tiappxml = require('tiapp.xml'),
-    pkg = require('../package.json')
+    pkg = require('../package.json'),
+    xpath = require('xpath')
 
 // check if the TiApp.xml an TiCh config file exists
 if (!fs.existsSync('tiapp.xml')) {
@@ -31,6 +32,7 @@ function tich() {
 
     // select a new config by name
     function select(name) {
+        var regex = /\$tiapp\.(.*)\$/;
 
         if (!name) {
             if (fs.existsSync('./app/config.json')) {
@@ -53,11 +55,25 @@ function tich() {
 
                     for (var setting in config.settings) {
 
-                        if (setting != "properties") {
+                        if (!config.settings.hasOwnProperty(setting)) continue;
 
-                            tiapp[setting] = config.settings[setting];
+                        if (setting != "properties" && setting != "raw") {
 
-                            console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(config.settings[setting]))
+                            var replaceWith = config.settings[setting]
+                                .replace('$DATE$', new Date().toLocaleDateString())
+                                .replace('$TIME$', new Date().toLocaleTimeString())
+                                .replace('$DATETIME$', new Date().toLocaleString())
+                                .replace('$TIME_EPOCH$', new Date().getTime().toString());
+
+                            var matches = regex.exec(replaceWith);
+                            if (matches && matches[1]) {
+                                var propName = matches[1];
+                                replaceWith = replaceWith.replace(regex, tiapp[propName]);
+                            }
+
+                            tiapp[setting] = replaceWith;
+
+                            console.log('Changing ' + chalk.cyan(setting) + ' to ' + chalk.yellow(replaceWith));
                         }
 
                     }
@@ -67,9 +83,60 @@ function tich() {
                     if (config.settings.properties) {
                         for (var property in config.settings.properties) {
 
-                            tiapp.setProperty(property, config.settings.properties[property]);
+                            if (!config.settings.properties.hasOwnProperty(property)) continue;
 
-                            console.log('Changing App property ' + chalk.cyan(property) + ' to ' + chalk.yellow(config.settings.properties[property]))
+                            var replaceWith = config.settings.properties[property]
+                                .replace('$DATE$', new Date().toLocaleDateString())
+                                .replace('$TIME$', new Date().toLocaleTimeString())
+                                .replace('$DATETIME$', new Date().toLocaleString())
+                                .replace('$TIME_EPOCH$', new Date().getTime().toString());
+
+
+                            var matches = regex.exec(replaceWith);
+                            if (matches && matches[1]) {
+                                var propName = matches[1];
+                                replaceWith = replaceWith.replace(regex, tiapp[propName]);
+                            }
+
+                            tiapp.setProperty(property, replaceWith);
+
+                            console.log('Changing App property ' + chalk.cyan(property) + ' to ' + chalk.yellow(replaceWith));
+
+                        }
+                    }
+
+                    if (config.settings.raw) {
+                        var doc = tiapp.doc;
+                        var select = xpath.useNamespaces({
+                            "ti": "http://ti.appcelerator.org",
+                            "android": "http://schemas.android.com/apk/res/android"
+                        });
+                        for (var path in config.settings.raw) {
+
+                            if (!config.settings.raw.hasOwnProperty(path)) continue;
+
+                            var node = select(path, doc, true);
+                            if (!node) {
+                                console.log(chalk.yellow('Could not find ' + path + ", skipping"));
+                                continue;
+                            }
+
+                            var replaceWith = config.settings.raw[path]
+                                .replace('$DATE$', new Date().toLocaleDateString())
+                                .replace('$TIME$', new Date().toLocaleTimeString())
+                                .replace('$DATETIME$', new Date().toLocaleString())
+                                .replace('$TIME_EPOCH$', new Date().getTime().toString());
+
+
+                            var matches = regex.exec(replaceWith);
+                            if (matches && matches[1]) {
+                                var propName = matches[1];
+                                replaceWith = replaceWith.replace(regex, tiapp[propName]);
+                            }
+
+                            node.value = replaceWith;
+
+                            console.log('Changing Raw property ' + chalk.cyan(path) + ' to ' + chalk.yellow(replaceWith));
 
                         }
                     }
@@ -80,9 +147,9 @@ function tich() {
 
                 }
             });
-            
+
             //console.log(chalk.red('\nCouldn\'t find a config called: ' + name + '\n'));
-        
+
         }
     }
 
