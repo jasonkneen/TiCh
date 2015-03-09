@@ -8,14 +8,7 @@ var program = require('commander'),
     pkg = require('../package.json'),
     xpath = require('xpath')
 
-// check if the TiApp.xml an TiCh config file exists
-if (!fs.existsSync('tiapp.xml')) {
-    console.log(chalk.red('Please run in the Ti Project folder'));
-} else if (!fs.existsSync('tich.cfg')) {
-    console.log(chalk.red('No tich config!'));
-} else {
-    tich();
-}
+tich();
 
 // main function
 function tich() {
@@ -31,7 +24,7 @@ function tich() {
     }
 
     // select a new config by name
-    function select(name) {
+    function select(name, outfilename) {
         var regex = /\$tiapp\.(.*)\$/;
 
         if (!name) {
@@ -46,7 +39,6 @@ function tich() {
                 }
             }
         } else {
-
             // find the config name specified
             cfg.configs.forEach(function(config) {
 
@@ -141,9 +133,9 @@ function tich() {
                         }
                     }
 
-                    console.log(chalk.green('\nTiApp.xml updated\n'));
+                    console.log(chalk.green('\n' + outfilename + ' updated\n'));
 
-                    tiapp.write();
+                    tiapp.write(outfilename);
 
                 }
             });
@@ -153,22 +145,37 @@ function tich() {
         }
     }
 
-    // read in our config
-    var cfg = JSON.parse(fs.readFileSync("tich.cfg", "utf-8"));
-
-    // read in the app config
-    var tiapp = tiappxml.load('./tiapp.xml');
-
     // setup CLI
     program
         .version(pkg.version, '-v, --version')
         .usage('[options]')
         .description(pkg.description)
         .option('-l, --list', 'Lists the configurations in the project folder')
+        .option('-f, --cfgfile <path>', 'Specifies the tich config file to use')
+        .option('-i, --in <path>', 'Specifies the file to read (default: tiapp.xml)')
+        .option('-o, --out <path>', 'Specifies the file to write (default: tiapp.xml)')
         .option('-s, --select <name>', 'Updates TiApp.xml to config specified by <name>')
         //.option('-c, --capture <name>', "Stores the current values of TiApp.xml id, name, version as <name> ")
 
     program.parse(process.argv);
+
+    var cfgfile = program.cfgfile ? program.cfgfile : 'tich.cfg';
+    var infile = program.in ? program.in : './tiapp.xml';
+    var outfile = program.out ? program.out : './tiapp.xml';
+
+    // check that all required input paths are good
+    [cfgfile, infile].forEach(function (file) {
+        if (!fs.existsSync(file)) {
+            console.log(chalk.red('Cannot find ' + file));
+            program.help();
+        }
+    });
+
+    // read in our config
+    var cfg = JSON.parse(fs.readFileSync(cfgfile, "utf-8"));
+
+    // read in the app config
+    var tiapp = tiappxml.load(infile);
 
     // check for a new version
     updateNotifier({
@@ -185,7 +192,7 @@ function tich() {
     // select command, select based on the arg passed
     } else if (program.select) {
 
-        select(program.args[0]);
+        select(program.args[0], outfile);
 
     // capture command - this will store the current TiApp.xml settings
     } else if (program.capture) {
@@ -198,3 +205,4 @@ function tich() {
     }
 
 }
+
