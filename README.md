@@ -112,6 +112,23 @@ You'll need to do a
 
 too before building with Titanium as any App Name changes will create multiple projects.
 
+##Optionally using multiple config files
+
+You can optionally use the `--cfgfile`, `--in` and `--out` options to specify the files to use. This is useful when you want to distribute a generic version of `tich.cfg` or `tiapp.xml` with your open source project but use private versions for your own internal builds.
+
+For example, to use the `app2` config profile defined in the `/path/to/myconfig.cfg` file:
+
+    $tich select --cfgfile /path/to/myconfig.cfg app2
+
+To use a different input file as a template:
+
+    $tich select --in /path/to/tiapp-template.xml app2
+
+If you do not specify these options, the following defaults will apply:
+
+* `--cfgfile` defaults to `./tich.cfg`
+* `--in` and `--out` default to `./tiapp.xml`
+
 ##Future thoughts
 
 * allow saving of new config items / settings via the CLI
@@ -142,4 +159,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
+
 
