@@ -122,7 +122,7 @@ For example, to use the `app2` config profile defined in the `/path/to/myconfig.
 
 To use a different input file as a template:
 
-    $tich select --in /path/to/tiapp-template.xml
+    $tich select --in /path/to/tiapp-template.xml app2
 
 If you do not specify these options, the following defaults will apply:
 
