@@ -91,7 +91,7 @@ This will show the current TiApp.xml config for name, id, version:
 
     $ tich
 
-##Switch configutation automatically (Alloy)
+##Switch configuration automatically (Alloy)
 
 If you're using Alloy, and have set a global theme, and this theme is a config, TiCh will automatilly look for that. So set your theme in app/config.json, then type:
 
