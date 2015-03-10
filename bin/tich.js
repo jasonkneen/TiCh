@@ -51,11 +51,12 @@ function tich() {
 
                         if (setting != "properties" && setting != "raw") {
 
+							var now = new Date();
                             var replaceWith = config.settings[setting]
-                                .replace('$DATE$', new Date().toLocaleDateString())
-                                .replace('$TIME$', new Date().toLocaleTimeString())
-                                .replace('$DATETIME$', new Date().toLocaleString())
-                                .replace('$TIME_EPOCH$', new Date().getTime().toString());
+                                .replace('$DATE$', now.toLocaleDateString())
+                                .replace('$TIME$', now.toLocaleTimeString())
+                                .replace('$DATETIME$', now.toLocaleString())
+                                .replace('$TIME_EPOCH$', now.getTime().toString());
 
                             var matches = regex.exec(replaceWith);
                             if (matches && matches[1]) {
@@ -69,8 +70,6 @@ function tich() {
                         }
 
                     }
-
-
 
                     if (config.settings.properties) {
                         for (var property in config.settings.properties) {
