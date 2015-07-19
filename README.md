@@ -24,7 +24,8 @@ As global CLI:
 
 ### CLI
 
-Create a tich.cfg file in the Titanium project folder as follows:-
+Create a tich.cfg file in the Titanium project folder as follows:
+
 ```json
 {
     "configs": [{
@@ -34,7 +35,7 @@ Create a tich.cfg file in the Titanium project folder as follows:-
             "version": "1.0.0",
             "id": "com.domain.app1",
             "guid": "1234-5678-9012-3456",
-             "properties" :{
+            "properties" :{
                 "Parse_AppId" : "APPID",
                 "Parse_ClientKey" : "CLIENTKEY",
                 "com.domain.MY_DATE": "$DATE$",
@@ -43,26 +44,26 @@ Create a tich.cfg file in the Titanium project folder as follows:-
                 "com.domain.BUILD_NUMBER": "$TIME_EPOCH$",
                 "com.domain.APP_VERSION_DESC": "Version $tiapp.version$",
                 "com.domain.moreinfo": "Visit $tiapp.url for more details"
+            },
+            "raw": {
+              "/ti:app/android/manifest/@package": "$tiapp.id$",
+              "/ti:app/android/manifest/@android:versionName": "$tiapp.version$",
+              "/ti:app/android/manifest/application/@android:debuggable": "false",
+              "/ti:app/android/manifest/application/activity[@android:name='.SomeActivity']/@android:screenOrientation": "portrait"
             }
         },
-        "raw": {
-          "/ti:app/android/manifest/@package": "$tiapp.id$",
-          "/ti:app/android/manifest/@android:versionName": "$tiapp.version$",
-          "/ti:app/android/manifest/application/@android:debuggable": "false",
-          "/ti:app/android/manifest/application/activity[@android:name='.SomeActivity']/@android:screenOrientation": "portrait"
-        }
     }, {
         "name": "test",
         "settings": {
             "name": "APP2",
             "version": "2.0.0",
             "id": "com.domain.app2",
-            "guid": "4321-5678-9012-3456"
-        },
-        "raw": {
-          "/ti:app/android/manifest/@package": "$tiapp.id$",
-          "/ti:app/android/manifest/@android:versionName": "$tiapp.version$",
-          "/ti:app/android/manifest/application/@android:debuggable": "true",
+            "guid": "4321-5678-9012-3456",
+            "raw": {
+              "/ti:app/android/manifest/@package": "$tiapp.id$",
+              "/ti:app/android/manifest/@android:versionName": "$tiapp.version$",
+              "/ti:app/android/manifest/application/@android:debuggable": "true",
+            }
         }
     }]
 }
@@ -95,7 +96,7 @@ This will show the current TiApp.xml config for name, id, version:
 
 If you're using Alloy, and have set a global theme, and this theme is a config, TiCh will automatilly look for that. So set your theme in app/config.json, then type:
 
-$ tich select
+    $ tich select
 
 and if TiCh finds a theme, and matches it in your TiCh config settings, it'll select it.
 
