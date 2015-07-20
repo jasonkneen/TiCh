@@ -20,6 +20,11 @@ function tich() {
         console.log('AppId: ' + chalk.cyan(tiapp.id));
         console.log('Version: ' + chalk.cyan(tiapp.version));
         console.log('GUID: ' + chalk.cyan(tiapp.guid));
+
+        if( isAlloy ){
+            console.log('Alloy Theme: ' + chalk.cyan(alloyCfg.global.theme || "not defined"));
+        }
+
         console.log('\n');
     }
 
@@ -28,22 +33,23 @@ function tich() {
         var regex = /\$tiapp\.(.*)\$/;
 
         if (!name) {
-            if (fs.existsSync('./app/config.json')) {
-                var alloyCfg = JSON.parse(fs.readFileSync("./app/config.json", "utf-8"));
+            console.log(chalk.red('No config specified, nothing to do.'));
+            status();
 
-                if (alloyCfg.global.theme) {
-                    console.log('\nFound a theme in config.json, trying ' + chalk.cyan(alloyCfg.global.theme));
-                    select(alloyCfg.global.theme);
-                } else {
-                    status();
-                }
-            }
         } else {
+
             // find the config name specified
             cfg.configs.forEach(function(config) {
 
                 if (config.name === name) {
                     console.log('\nFound a config for ' + chalk.cyan(config.name) + '\n');
+
+                    //Update theme on Alloy config
+                    if( isAlloy && processAlloy ){
+                        alloyCfg.global.theme = name;
+                        console.log('Changing ' + chalk.cyan('Alloy Theme') + ' to ' + chalk.yellow(alloyCfg.global.theme));
+                        fs.writeFileSync("./app/config.json", JSON.stringify(alloyCfg, null, 4));
+                    }
 
                     for (var setting in config.settings) {
 
@@ -154,6 +160,7 @@ function tich() {
         .option('-i, --in <path>', 'Specifies the file to read (default: tiapp.xml)')
         .option('-o, --out <path>', 'Specifies the file to write (default: tiapp.xml)')
         .option('-s, --select <name>', 'Updates TiApp.xml to config specified by <name>')
+        .option('--noalloy', 'Do no update theme on Alloy config')
         //.option('-c, --capture <name>', "Stores the current values of TiApp.xml id, name, version as <name> ")
 
     program.parse(process.argv);
@@ -161,6 +168,7 @@ function tich() {
     var cfgfile = program.cfgfile ? program.cfgfile : 'tich.cfg';
     var infile = program.in ? program.in : './tiapp.xml';
     var outfile = program.out ? program.out : './tiapp.xml';
+    var processAlloy = program.noalloy ? false : true;
 
     // check that all required input paths are good
     [cfgfile, infile].forEach(function (file) {
@@ -175,6 +183,13 @@ function tich() {
 
     // read in the app config
     var tiapp = tiappxml.load(infile);
+
+    var alloyCfg;
+    var isAlloy = false;
+    if (fs.existsSync("./app/config.json")) {
+        isAlloy = true;
+        alloyCfg = JSON.parse(fs.readFileSync("./app/config.json", "utf-8"));
+    }
 
     // check for a new version
     updateNotifier({
