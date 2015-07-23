@@ -59,6 +59,7 @@ function tich() {
                                 .replace('$TIME_EPOCH$', now.getTime().toString());
 
                             var matches = regex.exec(replaceWith);
+
                             if (matches && matches[1]) {
                                 var propName = matches[1];
                                 replaceWith = replaceWith.replace(regex, tiapp[propName]);
@@ -125,7 +126,14 @@ function tich() {
                                 replaceWith = replaceWith.replace(regex, tiapp[propName]);
                             }
 
-                            node.value = replaceWith;
+                            
+
+                            if (typeof(node.value) === 'undefined'){
+                                node.firstChild.data = replaceWith;
+                            }
+                            else{
+                                node.value = replaceWith;
+                            }
 
                             console.log('Changing Raw property ' + chalk.cyan(path) + ' to ' + chalk.yellow(replaceWith));
 
