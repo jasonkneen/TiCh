@@ -92,15 +92,7 @@ This will show the current TiApp.xml config for name, id, version:
 
     $ tich
 
-##Switch configuration automatically (Alloy)
-
-If you're using Alloy, and have set a global theme, and this theme is a config, TiCh will automatilly look for that. So set your theme in app/config.json, then type:
-
-    $ tich select
-
-and if TiCh finds a theme, and matches it in your TiCh config settings, it'll select it.
-
-##Switch configuration manually
+##Switch configuration
 
 This will switch the current TiApp.xml file to the settings for the config name specified:
 
@@ -112,6 +104,12 @@ You'll need to do a
     $ ti clean
 
 too before building with Titanium as any App Name changes will create multiple projects.
+
+##Disable automtica Alloy config update
+
+If you're using Alloy, TiCh will automatically update the theme on your Alloy config file to the name used on your TiCh configuration. If you don't want this to happen you can override with the `--noalloy` setting.
+
+    $ tich select app1 --noalloy
 
 ##Optionally using multiple config files
 
