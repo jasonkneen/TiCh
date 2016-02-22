@@ -10,6 +10,12 @@ var program = require('commander'),
 
 tich();
 
+function copyFile(fromPath, toPath) {
+    fs.readFile(fromPath, function(err, data) {
+        fs.writeFile(toPath, data);
+    });
+}
+
 // main function
 function tich() {
 
@@ -126,7 +132,7 @@ function tich() {
                                 replaceWith = replaceWith.replace(regex, tiapp[propName]);
                             }
 
-                            
+
 
                             if (typeof(node.value) === 'undefined'){
                                 node.firstChild.data = replaceWith;
@@ -138,6 +144,16 @@ function tich() {
                             console.log('Changing Raw property ' + chalk.cyan(path) + ' to ' + chalk.yellow(replaceWith));
 
                         }
+                    }
+
+                    if (fs.existsSync("./app/themes/" + name + "/assets/iphone/DefaultIcon.png")) {
+                        // if it exists in the themes folder, in a platform subfolder
+                        console.log(chalk.blue('Found a DefaultIcon.png in the theme\'s assets/iphone folder\n'));
+                        copyFile("./app/themes/" + name + "/assets/iphone/DefaultIcon.png", "./DefaultIcon.png")
+                    } else if (fs.existsSync("./app/themes/" + name + "/DefaultIcon.png")) {
+                        // if it exists in the top level theme folder
+                        console.log(chalk.blue('Found a DefaultIcon.png in the theme folder\n'));
+                        copyFile("./app/themes/" + name + "/" + "/DefaultIcon.png", "./DefaultIcon.png")
                     }
 
                     console.log(chalk.green('\n' + outfilename + ' updated\n'));
@@ -212,4 +228,3 @@ function tich() {
     }
 
 }
-
