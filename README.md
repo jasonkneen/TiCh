@@ -130,6 +130,11 @@ If you do not specify these options, the following defaults will apply:
 * `--cfgfile` defaults to `./tich.cfg`
 * `--in` and `--out` default to `./tiapp.xml`
 
+
+##DefaultIcon.png Consideration
+When creating different themes for your app you may also supply different Icons, however Alloy does not currently allow the DefaultIcon to be themeable [JIRA](https://jira.appcelerator.org/browse/ALOY-1318).  This library will automatically search the following paths: `/themes/[theme]/` and `/themes/[theme]/assets/iphone` for `DefaultIcon.png` and copy that file to the project's root upon selecting the config.
+
+
 ##Future thoughts
 
 * allow saving of new config items / settings via the CLI
@@ -160,5 +165,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
-
-
