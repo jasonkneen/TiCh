@@ -52,10 +52,11 @@ function tich() {
                     if (fs.existsSync('./app/config.json')) {
                         var alloyCfg = JSON.parse(fs.readFileSync("./app/config.json", "utf-8"));
                         if (alloyCfg.global.theme) {
+                          var original = alloyCfg.global.theme;
                           alloyCfg.global.theme = name;
                           fs.writeFile("./app/config.json", JSON.stringify(alloyCfg, null, 2), function (err) {
                               if (err) return console.log(err);
-                              console.log('\nUpdated theme value in config.json from ' + chalk.cyan(alloyCfg.global.theme) + ' to ' + chalk.cyan(name));
+                              console.log('\nChanging theme value in config.json from ' + chalk.cyan(original) + ' to ' + chalk.cyan(name));
                           });
                         }
                     }
