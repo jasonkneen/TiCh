@@ -225,7 +225,7 @@ function tich() {
     // select command, select based on the arg passed
     } else if (program.select) {
 
-        select(program.args[0], outfile);
+        select(program.select, outfile);
 
     // capture command - this will store the current TiApp.xml settings
     } else if (program.capture) {
